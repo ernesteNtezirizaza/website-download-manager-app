@@ -44,9 +44,14 @@
                 <input type="text" name="url" class="form-control" id="url" placeholder="Enter your url">
             </div>
             <div class="mt-5">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Download</button>
             </div>
         </form>
+
+    </div>
+
+    <div class="mt-5">
+        <a href="/report" style="text-decoration: none">View previous downloads</a>
     </div>
 </div>
 </body>

@@ -83,6 +83,6 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title("National Examination 2022 Endpoints").description("Endpoints' Documentation").termsOfServiceUrl("https://github.com/izabayo7").version("1.0").build();
+        return new ApiInfoBuilder().title("Website Download Manager Apis").description("Endpoints' Documentation").termsOfServiceUrl("https://github.com/ernesteNtezirizaza").version("1.0").build();
     }
 }

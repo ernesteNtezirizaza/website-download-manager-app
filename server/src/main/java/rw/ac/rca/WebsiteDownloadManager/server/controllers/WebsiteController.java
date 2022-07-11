@@ -20,12 +20,13 @@ public class WebsiteController {
     public WebsiteController(IWebsiteService websiteService) {
         this.websiteService = websiteService;
     }
-
+  // we are getting all websites
     @GetMapping("")
     public ResponseEntity<?> all() {
         return ResponseEntity.ok(websiteService.all());
     }
 
+    // this is where we will create a website by entering a certain url
     @PostMapping
     public ResponseEntity<?> create(@Valid @RequestBody CreateWebsiteDTO website) {
         try{
