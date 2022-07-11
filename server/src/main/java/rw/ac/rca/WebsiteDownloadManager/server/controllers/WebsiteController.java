@@ -1,54 +1,41 @@
 package rw.ac.rca.WebsiteDownloadManager.server.controllers;
 
-import rw.ac.rca.WebsiteDownloadManager.server.dtos.CreateWebsite;
-import rw.ac.rca.WebsiteDownloadManager.server.dtos.UpdateWebsite;
-import rw.ac.rca.WebsiteDownloadManager.server.models.Website;
-import rw.ac.rca.WebsiteDownloadManager.server.serviceImpl.WebsiteServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import rw.ac.rca.WebsiteDownloadManager.server.utils.dtos.CreateWebsiteDTO;
+import rw.ac.rca.WebsiteDownloadManager.server.services.IWebsiteService;
 
-import java.util.List;
-import java.util.UUID;
+import javax.validation.Valid;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @RestController
 @RequestMapping("/api/websites")
-@CrossOrigin
 public class WebsiteController {
 
-  @Autowired
-  private WebsiteServiceImpl websiteService;
-
-  @GetMapping
-  public List<Website>findAll(){
-    return websiteService.findAll();
-  }
-
-  @GetMapping("/{id}")
-  public Website findById(@PathVariable UUID id){
-    return websiteService.findById(id);
-  }
-
-  @PostMapping
-  public ResponseEntity<?>save(@RequestBody CreateWebsite createWebsite){
-    Website newWebsite= websiteService.post(createWebsite);
-
-    return ResponseEntity.ok(newWebsite);
-  }
+    private final IWebsiteService websiteService;
 
 
-  @PutMapping("/{id}")
-  public ResponseEntity<?>update(@RequestBody UpdateWebsite updateWebsite, @PathVariable UUID id){
-    Website updated= websiteService.edit(updateWebsite,id);
+    public WebsiteController(IWebsiteService websiteService) {
+        this.websiteService = websiteService;
+    }
 
-    return ResponseEntity.ok(updated);
-  }
+    @GetMapping("")
+    public ResponseEntity<?> all() {
+        return ResponseEntity.ok(websiteService.all());
+    }
 
+    @PostMapping
+    public ResponseEntity<?> create(@Valid @RequestBody CreateWebsiteDTO website) {
+        try{
+            URL url = new URL(website.getUrl());
+            return ResponseEntity.ok(websiteService.create(url));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-  @DeleteMapping("/{id}")
-  public ResponseEntity<?>delete(@PathVariable UUID id){
-    boolean isDeleted=websiteService.deleteWebsite(id);
-    return ResponseEntity.ok(isDeleted);
-  }
-
+    }
 }
